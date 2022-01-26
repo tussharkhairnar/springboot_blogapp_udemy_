@@ -1,6 +1,7 @@
 package com.services.blogrestapi.service.impl;
 
 import com.services.blogrestapi.entity.Post;
+import com.services.blogrestapi.exception.ResourceNotFound;
 import com.services.blogrestapi.payload.PostDTO;
 import com.services.blogrestapi.repository.PostRepository;
 import com.services.blogrestapi.service.PostService;
@@ -53,4 +54,16 @@ public class PostServiceImpl implements PostService {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public PostDTO getPostById(long id) {
+        Post post =  postRepository.findById(id).orElseThrow(()-> new ResourceNotFound("Post","id", id));
+        PostDTO postResponse = new PostDTO();
+        postResponse.setId(post.getId());
+        postResponse.setTitle(post.getTitle());
+        postResponse.setContent(post.getContent());
+        postResponse.setDescription(post.getDescription());
+        return postResponse;
+  }
+
 }
