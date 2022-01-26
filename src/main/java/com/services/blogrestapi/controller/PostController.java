@@ -1,5 +1,6 @@
 package com.services.blogrestapi.controller;
 
+import com.services.blogrestapi.entity.Post;
 import com.services.blogrestapi.payload.PostDTO;
 import com.services.blogrestapi.service.PostService;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,11 @@ public class PostController {
     @GetMapping("/{id}")
     ResponseEntity getPostById(@PathVariable Long id ){
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity updatePostById(@PathVariable Long id, @RequestBody PostDTO postDTO){
+        return new ResponseEntity<>(postService.updatePostById(id, postDTO), HttpStatus.OK);
     }
 
 }

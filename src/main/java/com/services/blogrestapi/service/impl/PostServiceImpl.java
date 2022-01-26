@@ -66,4 +66,19 @@ public class PostServiceImpl implements PostService {
         return postResponse;
   }
 
+    @Override
+    public PostDTO updatePostById(long id, PostDTO postDTO) {
+        Post post =  postRepository.findById(id).orElseThrow(()-> new ResourceNotFound("Post","id", id));
+        post.setTitle(postDTO.getTitle() );
+        post.setDescription(postDTO.getDescription());
+        post.setContent(postDTO.getContent());
+        postRepository.save(post);
+
+        PostDTO updatedDTO = new PostDTO();
+        updatedDTO.setTitle(post.getTitle());
+        updatedDTO.setDescription((post.getDescription()));
+        updatedDTO.setContent(post.getContent());
+        return updatedDTO;
+    }
+
 }
