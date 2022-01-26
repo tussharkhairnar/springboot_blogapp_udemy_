@@ -6,6 +6,9 @@ import com.services.blogrestapi.repository.PostRepository;
 import com.services.blogrestapi.service.PostService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -35,4 +38,19 @@ public class PostServiceImpl implements PostService {
         return postResponse;
     }
 
+    @Override
+    public List<PostDTO> getAllPosts() {
+        return postRepository
+                .findAll()
+                .stream()
+                .map( post-> {
+                    PostDTO postResponse = new PostDTO();
+                    postResponse.setId(post.getId());
+                    postResponse.setTitle(post.getTitle());
+                    postResponse.setContent(post.getContent());
+                    postResponse.setDescription(post.getDescription());
+                    return postResponse;
+                })
+                .collect(Collectors.toList());
+    }
 }
