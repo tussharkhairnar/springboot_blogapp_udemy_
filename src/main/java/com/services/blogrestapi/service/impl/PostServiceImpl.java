@@ -81,4 +81,11 @@ public class PostServiceImpl implements PostService {
         return updatedDTO;
     }
 
+
+    @Override
+    public void deletePostById(long id){
+        Post post =  postRepository.findById(id).orElseThrow(()-> new ResourceNotFound("Post","id", id));
+      postRepository.delete(post);
+    }
+
 }

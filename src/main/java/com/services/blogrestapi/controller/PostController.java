@@ -1,6 +1,5 @@
 package com.services.blogrestapi.controller;
 
-import com.services.blogrestapi.entity.Post;
 import com.services.blogrestapi.payload.PostDTO;
 import com.services.blogrestapi.service.PostService;
 import org.springframework.http.HttpStatus;
@@ -35,6 +34,12 @@ public class PostController {
     @PutMapping("/{id}")
     ResponseEntity updatePostById(@PathVariable Long id, @RequestBody PostDTO postDTO){
         return new ResponseEntity<>(postService.updatePostById(id, postDTO), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity deletePostById(@PathVariable Long id){
+        postService.deletePostById(id);
+        return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
     }
 
 }
