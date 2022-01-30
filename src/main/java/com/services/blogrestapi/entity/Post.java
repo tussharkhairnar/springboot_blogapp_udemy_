@@ -14,25 +14,16 @@ import javax.persistence.*;
 public class Post {
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(
-            name = "title",
-            nullable = false
-    )
+    @Column( name = "title",nullable = false)
     private String title;
 
-    @Column(
-            name = "description"
-    )
+    @Column(name = "description")
     private String description;
 
-    @Column(
-            name = "content"
-    )
+    @Column(name = "content")
     private String content;
 
 }
