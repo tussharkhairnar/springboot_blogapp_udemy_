@@ -5,6 +5,9 @@ import com.services.blogrestapi.exception.ResourceNotFound;
 import com.services.blogrestapi.payload.PostDTO;
 import com.services.blogrestapi.repository.PostRepository;
 import com.services.blogrestapi.service.PostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService {
 
-  private PostRepository postRepository;
+  private final PostRepository postRepository;
 
   public PostServiceImpl(PostRepository postRepository){
       this.postRepository = postRepository;
@@ -40,9 +43,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getAllPosts() {
-        return postRepository
-                .findAll()
+    public List<PostDTO> getAllPosts(int pageNo, int pageSize){
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Post> posts =  postRepository.findAll(pageable);
+        List<Post> listOfPosts = posts.getContent();
+
+        return listOfPosts
                 .stream()
                 .map( post-> {
                     PostDTO postResponse = new PostDTO();
@@ -80,7 +87,6 @@ public class PostServiceImpl implements PostService {
         updatedDTO.setContent(post.getContent());
         return updatedDTO;
     }
-
 
     @Override
     public void deletePostById(long id){

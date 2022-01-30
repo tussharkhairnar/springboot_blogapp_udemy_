@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/posts")
 public class PostController {
 
-    private PostService postService;
+    private final PostService postService;
 
     PostController(PostService postService){
         this.postService = postService;
@@ -22,12 +22,13 @@ public class PostController {
     }
 
     @GetMapping
-    ResponseEntity getAllPosts(){
-        return new ResponseEntity<>(postService.getAllPosts(),HttpStatus.OK);
+    ResponseEntity getAllPosts(@RequestParam(value = "pageNo", defaultValue="0", required = false) int pageNo,
+                               @RequestParam(value = "pageSize", defaultValue="10", required = false) int pageSize){
+        return new ResponseEntity<>(postService.getAllPosts(pageNo, pageSize),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity getPostById(@PathVariable Long id ){
+    ResponseEntity getPostById(@PathVariable Long id){
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
     }
 
